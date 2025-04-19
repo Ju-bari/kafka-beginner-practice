@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  opensearch:
+    platform: linux/amd64 # 호환성 추가
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true  # 개발용: 보안 비활성화
+      - compatibility.override_main_response_version=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=admin  # 2.12.0 이상 요구
+      - DISABLE_INSTALL_DEMO_CONFIG=true # 호환성 추가
+      - DISABLE_PERFORMANCE_ANALYZER_AGENT_CLI=true # 호환성 추가
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    ports:
+      - "5601:5601"
+    environment:
+      - OPENSEARCH_HOSTS=http://opensearch:9200
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true  # 보안 플러그인 비활성화
+    depends_on:
+      - opensearch

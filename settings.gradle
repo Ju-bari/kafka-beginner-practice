@@ -1,0 +1,6 @@
+rootProject.name = 'kafka-practice-1'
+include 'kafka-basics'
+include 'kafka-mini-project'
+include 'kafka-consumer-opensearch'
+include 'kafka-producer-wikimedia'
+
